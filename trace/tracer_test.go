@@ -22,3 +22,8 @@ func TestNew(t *testing.T) {
 		t.Errorf("Trace wrote: %q, expected: %q", got, expected)
 	}
 }
+
+func TestOff(t *testing.T) {
+	var silentTracer Tracer = Off()
+	silentTracer.Trace("something")
+}

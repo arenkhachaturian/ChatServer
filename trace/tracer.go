@@ -15,11 +15,20 @@ type tracer struct {
 	out io.Writer
 }
 
+func (t *tracer) Trace(args ...interface{}) {
+	fmt.Fprint(t.out, args...)
+	fmt.Fprintln(t.out)
+}
+
+type nilTracer struct{}
+
+func (t *nilTracer) Trace(args ...interface{}) {}
+
 func New(w io.Writer) Tracer {
 	return &tracer{out: w}
 }
 
-func (t *tracer) Trace(args ...interface{}) {
-	fmt.Fprint(t.out, args...)
-	fmt.Fprintln(t.out)
+// Off creates a Tracer that will ignore calls to Trace.
+func Off() Tracer {
+	return &nilTracer{}
 }
